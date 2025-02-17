@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Lost in Space</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #000 0%, #0B1026 100%);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Stars Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        /* Spaceship Container */
+        .container {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        /* Spaceship */
+        .spaceship {
+            position: relative;
+            width: 120px;
+            height: 80px;
+            margin: 0 auto 40px;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .ship-body {
+            position: absolute;
+            width: 120px;
+            height: 40px;
+            background: linear-gradient(90deg, #3B4CCA 0%, #2A3A94 100%);
+            border-radius: 50px;
+            top: 20px;
+        }
+        
+        .cockpit {
+            position: absolute;
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.8) 0%, rgba(77, 119, 255, 0.8) 100%);
+            border-radius: 50% 50% 0 0;
+            top: 7px;
+            left: 40px;
+        }
+        
+        .engine {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            background: #333;
+            border-radius: 0 0 50% 50%;
+            bottom: 10px;
+            left: 45px;
+        }
+        
+        .flame {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: linear-gradient(0deg, #FF6B6B 0%, #FFAB76 50%, transparent 100%);
+            border-radius: 50% 50% 10% 10%;
+            bottom: -25px;
+            left: 50px;
+            animation: flicker 0.3s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0% { height: 25px; opacity: 0.7; }
+            100% { height: 35px; opacity: 1; }
+        }
+        
+        .wing {
+            position: absolute;
+            width: 40px;
+            height: 15px;
+            background: #3B4CCA;
+            top: 30px;
+        }
+        
+        .wing.left {
+            left: 0;
+            transform: skew(30deg, 0);
+            border-radius: 10px 0 0 0;
+        }
+        
+        .wing.right {
+            right: 0;
+            transform: skew(-30deg, 0);
+            border-radius: 0 10px 0 0;
+        }
+        
+        /* Content */
+        h1 {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-weight: 900;
+            letter-spacing: -2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1:after {
+            content: "404";
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            color: rgba(255, 0, 98, 0.8);
+            z-index: -1;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Button */
+        .btn {
+            background: linear-gradient(90deg, #3B4CCA 0%, #2A3A94 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(59, 76, 202, 0.5);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 76, 202, 0.7);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Planet */
+        .planet {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #832424 100%);
+            border-radius: 50%;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        .crater {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Alert box */
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px 25px;
+            border-radius: 5px;
+            transform: translateX(200%);
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .alert.show {
+            transform: translateX(0);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+            }
+            
+            .spaceship {
+                transform: scale(0.8);
+            }
+            
+            .planet {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            
+            .spaceship {
+                transform: scale(0.6);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <div class="spaceship">
+            <div class="cockpit"></div>
+            <div class="ship-body"></div>
+            <div class="wing left"></div>
+            <div class="wing right"></div>
+            <div class="engine"></div>
+            <div class="flame"></div>
+        </div>
+        
+        <h1>404</h1>
+        <p>Houston, we have a problem! The page you're looking for has been lost in space.</p>
+        <a href="/" class="btn">Return to Earth</a>
+        
+        <div class="controls">
+            <div class="control-btn" id="left-btn">←</div>
+            <div class="control-btn" id="up-btn">↑</div>
+            <div class="control-btn" id="right-btn">→</div>
+            <div class="control-btn" id="down-btn">↓</div>
+            <div class="control-btn" id="boost-btn">🚀</div>
+        </div>
+    </div>
+    
+    <div class="planet"></div>
+    <div class="alert" id="alert">You found a secret! Keep exploring!</div>
+    
+    <script>
+        // Create stars
+        const starsContainer = document.querySelector('.stars');
+        const starCount = 200;
+        
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            
+            // Random position
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            // Random size
+            const size = Math.random() * 2;
+            
+            // Random animation duration
+            const duration = 2 + Math.random() * 3;
+            
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDuration = `${duration}s`;
+            
+            starsContainer.appendChild(star);
+        }
+        
+        // Create craters
+        const planet = document.querySelector('.planet');
+        const craterCount = 15;
+        
+        for (let i = 0; i < craterCount; i++) {
+            const crater = document.createElement('div');
+            crater.classList.add('crater');
+            
+            // Random position
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            
+            // Random size
+            const size = 5 + Math.random() * 15;
+            
+            crater.style.left = `${x}%`;
+            crater.style.top = `${y}%`;
+            crater.style.width = `${size}px`;
+            crater.style.height = `${size}px`;
+            
+            planet.appendChild(crater);
+        }
+        
+        // Ship movement
+        const spaceship = document.querySelector('.spaceship');
+        const leftBtn = document.getElementById('left-btn');
+        const rightBtn = document.getElementById('right-btn');
+        const upBtn = document.getElementById('up-btn');
+        const downBtn = document.getElementById('down-btn');
+        const boostBtn = document.getElementById('boost-btn');
+        const alert = document.getElementById('alert');
+        
+        let position = { x: 0, y: 0 };
+        let secrets = 0;
+        
+        function showAlert(message) {
+            alert.textContent = message;
+            alert.classList.add('show');
+            
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 3000);
+        }
+        
+        function updatePosition() {
+            spaceship.style.transform = `translate(${position.x}px, ${position.y}px)`;
+            
+            // Check for secrets
+            if (position.x > 200 && position.y < -100) {
+                if (secrets === 0) {
+                    showAlert("You found a secret! Keep exploring!");
+                    secrets++;
+                }
+            }
+            
+            if (position.x < -200 && position.y > 100) {
+                if (secrets === 1) {
+                    showAlert("Another secret found! There's one more...");
+                    secrets++;
+                }
+            }
+            
+            if (Math.abs(position.x) < 20 && position.y < -250) {
+                if (secrets === 2) {
+                    showAlert("You found all secrets! You're a true explorer!");
+                    document.querySelector('h1').style.color = 'gold';
+                    secrets++;
+                }
+            }
+        }
+        
+        leftBtn.addEventListener('click', () => {
+            position.x -= 50;
+            updatePosition();
+        });
+        
+        rightBtn.addEventListener('click', () => {
+            position.x += 50;
+            updatePosition();
+        });
+        
+        upBtn.addEventListener('click', () => {
+            position.y -= 50;
+            updatePosition();
+        });
+        
+        downBtn.addEventListener('click', () => {
+            position.y += 50;
+            updatePosition();
+        });
+        
+        boostBtn.addEventListener('click', () => {
+            const direction = Math.random() > 0.5 ? 1 : -1;
+            position.x += direction * 150;
+            position.y -= 150;
+            updatePosition();
+            
+            // Boost the flame
+            const flame = document.querySelector('.flame');
+            flame.style.height = '50px';
+            setTimeout(() => {
+                flame.style.height = '';
+            }, 300);
+        });
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    position.x -= 50;
+                    break;
+                case 'ArrowRight':
+                    position.x += 50;
+                    break;
+                case 'ArrowUp':
+                    position.y -= 50;
+                    break;
+                case 'ArrowDown':
+                    position.y += 50;
+                    break;
+                case ' ':
+                    const direction = Math.random() > 0.5 ? 1 : -1;
+                    position.x += direction * 150;
+                    position.y -= 150;
+                    
+                    // Boost the flame
+                    const flame = document.querySelector('.flame');
+                    flame.style.height = '50px';
+                    setTimeout(() => {
+                        flame.style.height = '';
+                    }, 300);
+                    break;
+            }
+            updatePosition();
+        });
+    </script>
+</body>
+</html>
